@@ -3,8 +3,7 @@ Kubernetes Multi Master Cluster Setup With Loadbalancer - HA
 
 
 ## Architecture for the multi master setup :  Stacked ETCD
-<img width="1024" height="1024" alt="k8s-architecture" src="https://github.com/user-attachments/assets/e99b5632-3e8e-43e5-adf3-b628f93a8f9e" />
-
+<img width="2177" height="1161" alt="K8s-architecture-lb" src="https://github.com/user-attachments/assets/85597433-0135-43a2-89ae-6906e0e2f06d" />
 
 
 
