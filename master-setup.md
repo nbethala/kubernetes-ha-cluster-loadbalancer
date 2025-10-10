@@ -157,7 +157,29 @@ kubeadm init \
   --apiserver-advertise-address=<private-ip-of-this-ec2-instance>
 ```
 
+### TLS certificates 
+Kubernetes generates a set of TLS certificates post kubeadm initialization that are essential for securing communication between cluster components. 
 
+Why Are These Important?
+Security: All communication between Kubernetes components (API server, kubelet, etcd, controller manager) is encrypted and authenticated using these certificates.
+
+Trust: The ca.crt acts as the root of trust — all other certs are signed by it.
+
+Access Control: Service accounts and kubelets use certs to prove identity and permissions.
+
+### 🛠️ Configure kubectl Access
+Run these commands as your regular user:
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+Alternatively, if you are the root user, you can run:
+
+```
+export KUBECONFIG=/etc/kubernetes/admin.conf
+```
 
 
 
