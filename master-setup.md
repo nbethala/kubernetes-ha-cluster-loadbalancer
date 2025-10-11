@@ -3,19 +3,19 @@
 This section prepares your Linux system for Kubernetes installation by loading required kernel modules and configuring system networking parameters.
 
 ---
-###  SSH into the Master EC2 server
-Do sudo -i 
+1. ###  SSH into the Master EC2 server
+   Do sudo -i 
 
-Disable Swap using the below commands
+   Disable Swap using the below commands
 
-```bash
-swapoff -a
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-```
+  ```bash
+  swapoff -a
+  sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+   ```
 
-### 🔧 Load Required Kernel Modules
+2. ### 🔧 Load Required Kernel Modules
 
-#### Forwarding IPv4 and letting iptables see bridged traffic
+  #### Forwarding IPv4 and letting iptables see bridged traffic
 Create a config file to load necessary modules at boot:
 
 ```bash
@@ -55,7 +55,7 @@ ip_forward: Allows packet routing between interfaces (essential for pod networki
 Why This Matters
 Without these steps, Kubernetes networking (like pod-to-pod communication and service routing) might fail silently. This setup ensures your system is ready to handle container traffic and Kubernetes networking rules.
 
-### Install container runtime
+3. ### Install container runtime
 Manual Installation of containerd (v1.7.14)
 This guide installs containerd manually from the official GitHub release and configures it for Kubernetes compatibility.
 
@@ -81,7 +81,7 @@ Be sure to match containerd version with Kubernetes compatibility matrix.
 
 SystemdCgroup = true is essential for kubelet to work properly.
 
-### Install runc (Container Runtime CLI)
+4. ### Install runc (Container Runtime CLI)
 runc is a low-level CLI tool used by containerd to spawn and manage containers. This step installs the latest stable release manually.
 
 ```bash
@@ -93,7 +93,7 @@ runc is required by containerd to manage containers at the OS level
 
 Installing manually ensures you get the exact version needed for compatibility
 
-### Install CNI Plugins (Container Network Interface)
+5. ### Install CNI Plugins (Container Network Interface)
 Kubernetes uses CNI plugins to manage pod networking. These plugins enable communication between pods across nodes.
 
 ```bash
@@ -108,7 +108,7 @@ Common plugins include bridge, host-local, loopback, and portmap.
 
 You can later install advanced CNI solutions like Calico, Cilium, or Flannel for full network policies and overlays.
 
-### Install Kubernetes Components: kubeadm, kubelet, and kubectl
+6. ### Install Kubernetes Components: kubeadm, kubelet, and kubectl
 These tools are essential for setting up and managing your Kubernetes cluster:
 
 kubeadm: Initializes and configures the cluster
@@ -147,8 +147,7 @@ kubectl version --client
 ```
 systemctl status kubelet
 ```
-
-### Kubernetes Control Plane Initialization with kubeadm
+7. ### Kubernetes Control Plane Initialization with kubeadm
 ```
 kubeadm init \
   --control-plane-endpoint "<load-balancer-private-ip>:6443" \
@@ -157,7 +156,7 @@ kubeadm init \
   --apiserver-advertise-address=<private-ip-of-this-ec2-instance>
 ```
 
-### TLS certificates 
+8. ### TLS certificates 
 Kubernetes generates a set of TLS certificates post kubeadm initialization that are essential for securing communication between cluster components. 
 
 Why Are These Important?
@@ -167,7 +166,7 @@ Trust: The ca.crt acts as the root of trust — all other certs are signed by it
 
 Access Control: Service accounts and kubelets use certs to prove identity and permissions.
 
-### 🛠️ Configure kubectl Access
+9. ### 🛠️ Configure kubectl Access
 Run these commands as your regular user:
 ```
 mkdir -p $HOME/.kube
@@ -181,7 +180,7 @@ Alternatively, if you are the root user, you can run:
 export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
 
-### Install calico (network addon ) to start pod to pod communication
+10. ### Install calico (network addon ) to start pod to pod communication
 ```
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
 
@@ -197,7 +196,21 @@ NAME           STATUS   ROLES           AGE   VERSION
 ip-10-0-1-37   Ready    control-plane   24m   v1.33.0
 ```
 
+
+Feature	Provided by Calico
+Pod IP assignment	✅ Yes
+
+Pod-to-pod routing	✅ Yes
+
+Cross-node communication	✅ Yes
+
+Network policies	✅ Yes
+
+Matches CIDR 192.168.0.0/16	✅ Yes
+
+
 ### control-plane node is in ready state
+
 
 
 
