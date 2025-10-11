@@ -1,22 +1,36 @@
 ## Setup Load Balancer on EC2 Instance : HAproxy setup instructions 
 
-Login to the loadbalancer node
-Switch as root -  sudo -i
-Update your repository and your system
+### Login to the loadbalancer node
+Switch as root -  
+```
+sudo -i
+```
+
+### Update your repository and your system
+```
 sudo apt-get update && sudo apt-get upgrade -y
-Install haproxy
+```
+### Install haproxy
+```
 sudo apt-get install haproxy -y
-Edit haproxy configuration
+```
+
+### Edit haproxy configuration
+```
 sudo vi /etc/haproxy/haproxy.cfg
+```
+
 make sure to use private ips for all the communication as we are using as we are going to perform all the communication within the vpc only
 
+```
 frontend kubernetes-api
          bind *:6443
          mode tcp
          option tcplog
          default_backend kube-master-nodes
-What this means:
-frontend kubernetes-api
+```
+
+### frontend kubernetes-api
 
 This names the frontend block kubernetes-api. It's just an identifier — you could call it anything, but naming it clearly helps for readability.
 
@@ -31,7 +45,7 @@ default_backend kube-masters
 Any connection received on this frontend will be forwarded to the kube-masters backend (defined in the next block).
 
 💡 This block is essentially the public-facing listener for Kubernetes API requests
-
+```
 backend kube-master-nodes
         mode tcp
         balance roundrobin
@@ -41,8 +55,9 @@ backend kube-master-nodes
     
         server master1 <private-ip of master node 01>:6443 check
         server master2 <private-ip of master node 02>:6443 check
-What this means:
-backend kube-masters
+```
+
+### backend kube-masters
 
 This names the backend pool kube-masters. This matches the default_backend in the frontend section.
 
@@ -76,8 +91,9 @@ slowstart 60s: After recovery, slowly ramp up traffic over 60s.
 maxconn 250: Max 250 connections.
 maxqueue 256: Queue limit.
 weight 100: Default weight for load balancing.
-final output
 
+### Final output
+```
 global
 	log /dev/log	local0
 	log /dev/log	local1 notice
@@ -128,6 +144,8 @@ backend kube-master-nodes
     
         server master1 <private-ip of master node 01>:6443 check
         server master2 <private-ip of master node 02>:6443 check
+```
+
 make sure to replace the placeholders with private ip of master instances
 
 After Configuration
