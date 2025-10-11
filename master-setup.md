@@ -1,4 +1,4 @@
-## 🛠️ Kubernetes System Prep (Linux) : setup Leader Master Node
+## 🛠️ Kubernetes System Prep (Linux) : Setup Leader Master Node
 
 This section prepares your Linux system for Kubernetes installation by loading required kernel modules and configuring system networking parameters.
 
@@ -45,7 +45,7 @@ lsmod | grep overlay
 sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
 
 ```
-### Notes
+#### Notes
 overlay: Required for container storage layers
 
 br_netfilter: Enables iptables visibility for bridged traffic
@@ -74,26 +74,26 @@ sudo systemctl enable --now containerd
 # Check that containerd service is up and running
 systemctl status containerd
 ```
-### Notes
+#### Notes
 This method gives you full control over the containerd version.
 
 Be sure to match containerd version with Kubernetes compatibility matrix.
 
 SystemdCgroup = true is essential for kubelet to work properly.
 
-🔧 Install runc (Container Runtime CLI)
+### Install runc (Container Runtime CLI)
 runc is a low-level CLI tool used by containerd to spawn and manage containers. This step installs the latest stable release manually.
 
 ```bash
 curl -LO https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
 sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 ```
-### Notes
+#### Notes
 runc is required by containerd to manage containers at the OS level
 
 Installing manually ensures you get the exact version needed for compatibility
 
-🔧 Install CNI Plugins (Container Network Interface)
+### Install CNI Plugins (Container Network Interface)
 Kubernetes uses CNI plugins to manage pod networking. These plugins enable communication between pods across nodes.
 
 ```bash
@@ -101,14 +101,14 @@ curl -LO https://github.com/containernetworking/plugins/releases/download/v1.5.0
 sudo mkdir -p /opt/cni/bin
 sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.5.0.tgz
 ```
-### Notes
+#### Notes
 These plugins are required for Kubernetes to set up pod networking.
 
 Common plugins include bridge, host-local, loopback, and portmap.
 
 You can later install advanced CNI solutions like Calico, Cilium, or Flannel for full network policies and overlays.
 
-🚀 Install Kubernetes Components: kubeadm, kubelet, and kubectl
+### Install Kubernetes Components: kubeadm, kubelet, and kubectl
 These tools are essential for setting up and managing your Kubernetes cluster:
 
 kubeadm: Initializes and configures the cluster
@@ -148,7 +148,7 @@ kubectl version --client
 systemctl status kubelet
 ```
 
-🚀 Kubernetes Control Plane Initialization with kubeadm
+### Kubernetes Control Plane Initialization with kubeadm
 ```
 kubeadm init \
   --control-plane-endpoint "<load-balancer-private-ip>:6443" \
