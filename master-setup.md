@@ -181,6 +181,24 @@ Alternatively, if you are the root user, you can run:
 export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
 
+### Install calico (network addon ) to start pod to pod communication
+```
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
+
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml -O
+
+kubectl apply -f custom-resources.yaml
+```
+
+### Final step to ensure pod communication is enabled : 
+```
+kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+ip-10-0-1-37   Ready    control-plane   24m   v1.33.0
+```
+
+### control-plane node is in ready state
+
 
 
 
