@@ -201,7 +201,7 @@ Use the official NGINX container image
 
 Expose port 80 inside the pod
 
-
+#### Your cluster is now ready to deploy real workloads, services, and applications. You’ve built a production-grade, highly available Kubernetes environment!
 
 
 
