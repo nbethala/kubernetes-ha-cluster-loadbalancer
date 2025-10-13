@@ -162,6 +162,44 @@ Run Kubectl get nodes
 kubectl get nodes' on the control-plane to see this node join the cluster.
 ```
 
+####  Monitor HAProxy Logs in Real Time
+
+To monitor HAProxy activity and troubleshoot issues, you can stream its logs using `journalctl`.
+
+---
+
+### 🔧 Command
+
+```bash
+sudo journalctl -u haproxy -f
+```
+
+## 🎉 Cluster Ready: Multi-Control Node with Stacked etcd
+
+Congratulations! Your Kubernetes cluster is now fully operational with:
+
+- ✅ Multiple control plane nodes
+- 🗃️ Stacked etcd configuration
+- 🧱 Worker nodes joined and ready
+- 🔐 Secure communication and certificate setup
+
+---
+
+### 🚀 Test Your Cluster: Deploy a Pod
+
+To verify that your cluster can schedule workloads, try provisioning a simple NGINX pod:
+
+```bash
+kubectl run nginx --image=nginx --port=80
+```
+
+This command will:
+
+Create a pod named nginx
+
+Use the official NGINX container image
+
+Expose port 80 inside the pod
 
 
 
