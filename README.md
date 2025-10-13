@@ -24,6 +24,11 @@ The cluster consists of:
 
 All nodes run **Ubuntu 16.04+** and are provisioned with appropriate CPU, RAM, and storage based on their roles.
 
+## 🗺️ Architecture for the multi master setup :  Stacked ETCD
+
+<img width="2177" height="1161" alt="K8s-architecture-lb" src="https://github.com/user-attachments/assets/85597433-0135-43a2-89ae-6906e0e2f06d" />
+
+
 ## 🔧 Manual Implementation Highlights
 
 - EC2 instances launched and configured manually
@@ -62,6 +67,21 @@ By working through this project, you will:
 - Gain experience with AWS networking and EC2 provisioning
 - Prepare for infrastructure automation using Terraform
 
+## Repository Structure: 
+
+```
+kubernetes-ha-cluster-aws/
+├── README.md                    # Project overview and architecture
+├── troubleshooting-guide.md     # Common errors and fixes
+├── setup/
+│   ├── setup-guide.md           # Full cluster setup walkthrough 
+|   ├──infra-setup.md            # AWS infrastructure details
+│   ├── master-setup.md          # Manual setup for control plane nodes
+│   ├── worker-setup.md          # Manual setup for worker nodes
+│   └── loadbalancer-setup.md    # Manual setup for HAProxy load balancer
+```
+
+## 📘 Full Setup Guide: [setup/setup-guide.md](setup/setup-guide.md)
 
 > 💡 Tip: This project is ideal for DevOps engineers, cloud architects, and learners preparing for Kubernetes certifications.
 
